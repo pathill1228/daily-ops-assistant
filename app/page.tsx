@@ -1,9 +1,10 @@
-"use client";
 import Image from "next/image";
-import { useState } from "react";
+import FileUpload from "./fileUpload";
 
 export default function Home() {
   return (
-    <h5>Upload your file</h5>
+    <div>
+      <FileUpload/>
+    </div>
   );
 }
