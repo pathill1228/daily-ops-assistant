@@ -2,6 +2,7 @@
 import { parseJsonFile } from "next/dist/build/load-jsconfig";
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import { Z_NO_COMPRESSION } from "zlib";
 
 export default function FileUpload() {
 
@@ -17,7 +18,24 @@ export default function FileUpload() {
 
     const json = XLSX.utils.sheet_to_json(sheet);
 
+    console.log(typeof(json));
     console.log(json);
+
+    for (let i = json.length - 1; i >= 0; i--) {
+      if (json[i].DSP !== "GNCT") {
+        json.splice(i, 1);
+      }
+    }
+
+    const columnsToRemove = ["DSP","Route Duration","Num Zones","Num Commercial Pkgs"];
+    json.forEach(row => {
+      columnsToRemove.forEach(column => {
+        delete row[column];
+      });
+    });
+
+    console.log(json);
+
   }
 
   function handleFileUpload(e){
