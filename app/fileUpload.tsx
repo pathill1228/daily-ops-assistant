@@ -9,17 +9,21 @@ export default function FileUpload() {
   const [file, setFile] = useState(null);
   const [uploaded, setUploaded] = useState(false);
 
+  //putting excel file into json object 
   async function parseFile(file){
     const buffer = await file.arrayBuffer();
 
     const workbook = XLSX.read(buffer, {type: "array"});
-
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
     const json = XLSX.utils.sheet_to_json(sheet);
 
-    console.log(typeof(json));
-    console.log(json);
+    const cleanedJson = cleanFile(json);
+      //console.log(cleanedJson);
+
+  }
+
+  //cleaning data
+  function cleanFile(json){
 
     for (let i = json.length - 1; i >= 0; i--) {
       if (json[i].DSP !== "GNCT") {
@@ -34,10 +38,11 @@ export default function FileUpload() {
       });
     });
 
-    console.log(json);
-
+    return json;
   }
 
+
+  //Ensuring that only the correct file is imported
   function handleFileUpload(e){
     const selectedFile = e.target.files[0];
     if(!uploaded){
@@ -61,6 +66,7 @@ export default function FileUpload() {
     }
   }
 
+  //Removing possibility for multiple imports at a time
   function removeFileUpload(){
     if(uploaded){
       setFile(null);
