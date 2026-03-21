@@ -9,6 +9,7 @@ export default function UploadFile() {
 
   const [file, setFile] = useState(null);
   const [uploaded, setUploaded] = useState(false);
+  const [data, setData] = useState(null);
 
   //putting excel file into json object 
   async function parseFile(file){
@@ -19,6 +20,7 @@ export default function UploadFile() {
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const cleanedJson = cleanFile(json);
+    setData(cleanedJson);
       console.log(cleanedJson);
 
   }
@@ -81,11 +83,10 @@ export default function UploadFile() {
 
   return (
     <div>
-      <h1 className="">Day of Ops Assistant</h1>
       <label htmlFor="fileUpload" className="border p-1">Choose File</label>
       <input type="file" className="hidden" id="fileUpload" onChange={handleFileUpload}/>
       <button className="border ml-2 pl-1 pr-1" onClick={removeFileUpload}>X</button>
-      {/*<DisplayFile data={} />*/}
+      <DisplayFile data={data} />
     </div>
   );
 }
