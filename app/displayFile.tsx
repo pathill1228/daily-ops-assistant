@@ -6,7 +6,7 @@ import * as XLSX from "xlsx";
 export default function DisplayFile() {
 
   return (
-    
+    <div></div>
   );
 }
 

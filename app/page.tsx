@@ -1,11 +1,12 @@
 import Image from "next/image";
-import FileUpload from "./fileUpload";
-import FileDisplay from "./fileDisplay";
+import UploadFile from "./uploadFile";
+import DisplayFile from "./displayFile";
+import FileManager from "./fileManager";
 
 export default function Home() {
   return (
     <div>
-      <FileUpload/>
+      <FileManager/>
     </div>
   );
 }

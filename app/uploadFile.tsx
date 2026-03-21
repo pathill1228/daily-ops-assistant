@@ -3,8 +3,9 @@ import { parseJsonFile } from "next/dist/build/load-jsconfig";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 import { Z_NO_COMPRESSION } from "zlib";
+import DisplayFile from "./displayFile";
 
-export default function FileUpload() {
+export default function UploadFile() {
 
   const [file, setFile] = useState(null);
   const [uploaded, setUploaded] = useState(false);
@@ -18,7 +19,7 @@ export default function FileUpload() {
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const cleanedJson = cleanFile(json);
-      //console.log(cleanedJson);
+      console.log(cleanedJson);
 
   }
 
@@ -71,6 +72,7 @@ export default function FileUpload() {
     if(uploaded){
       setFile(null);
       setUploaded(false);
+      console.log('File Removed!')
     }
     else{
       console.log('No files have been uploaded!');
@@ -83,6 +85,7 @@ export default function FileUpload() {
       <label htmlFor="fileUpload" className="border p-1">Choose File</label>
       <input type="file" className="hidden" id="fileUpload" onChange={handleFileUpload}/>
       <button className="border ml-2 pl-1 pr-1" onClick={removeFileUpload}>X</button>
+      {/*<DisplayFile data={} />*/}
     </div>
   );
 }
