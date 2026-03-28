@@ -3,29 +3,18 @@
 import { useState } from "react";
 
 export default function DailyData() {
-  const [inputValue, setInputValue] = useState("");
-  const [extras, setExtras] = useState<{ AssociateName?: string }>({});
+  const [extrasNum, setExtrasNum] = useState(null);
+  const numOfExtras = document.getElementById("numOfExtras");
 
-  function addExtra() {
-    setExtras({
-      AssociateName: inputValue
-    });
+  function createExtrasList(){
+    console.log(numOfExtras);
   }
 
   return (
     <div>
-      <input
-        type="text"
-        className="border mt-2 mb-2"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-
-      <button className="border ml-2 pl-1 pr-1" onClick={addExtra}>
-        +
-      </button>
-
-      <pre>{JSON.stringify(extras, null, 2)}</pre>
+      <h5>Number of Extras</h5>
+      <input type="number" className="border pl-1 pr-1 w-8 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" id="numOfExtras"></input>
+      <button onClick={createExtrasList} className="border mb-2 ml-2 pl-1 pr-1">Submit</button>
     </div>
   );
-}
+} 
