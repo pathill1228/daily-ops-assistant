@@ -3,7 +3,9 @@ import { parseJsonFile } from "next/dist/build/load-jsconfig";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 
-export default function DisplayFile({data}) {
+
+export default function DisplayFile({data}){
+
   if(!data) return <div></div>
   else return (
     <table>
@@ -23,7 +25,7 @@ export default function DisplayFile({data}) {
         </tr>
       ))}
     </tbody>
-  </table>
+    </table>
   );
 }
 
