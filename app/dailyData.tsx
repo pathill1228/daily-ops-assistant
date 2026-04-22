@@ -6,6 +6,7 @@ function DisplayEmployeeData({data}){
   
   if(!data) return <div></div>
   else return(
+    <div></div>
     //logic to display names after every entry
   );
 }
