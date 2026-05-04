@@ -9,11 +9,7 @@ function DisplayExtras({data}){
     <div>    
       <table>
       <thead>
-        <tr>
-          {Object.keys(data[0]).map((key) => (
-            <th key={key}>{key}</th>
-          ))}
-        </tr>
+
       </thead>
       <tbody>
         {data.map((row, i) => (
