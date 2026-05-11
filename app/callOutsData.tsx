@@ -36,7 +36,7 @@ function getStatusColor(status, display){
   }
 }
 
-function DisplayExtras({data}){
+function DisplayCallOuts({data}){
   
   if(!data || data.length === 0) return <div></div>
   else return(
@@ -61,7 +61,7 @@ function DisplayExtras({data}){
   )
 }
 
-export default function ExtrasData() {
+export default function CallOutsData() {
 
   const [data, setData] = useState([]);
 
@@ -77,7 +77,7 @@ export default function ExtrasData() {
         {
           id: data.length, 
           name: e.target.value, 
-          status: "Extra",
+          status: null,
           route: null
         }]);
     }
@@ -87,7 +87,7 @@ export default function ExtrasData() {
   return (
     <div>
       <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
-      <DisplayExtras data={data}/>
+      <DisplayCallOuts data={data}/>
     </div>
   );
 } 
