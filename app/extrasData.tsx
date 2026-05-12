@@ -1,73 +1,28 @@
 "use client";
-
+import DisplayEmployee from "./displayEmployee";
 import { useState, useEffect } from "react";
-
-function getStatusColor(status, display){
-
-  if(display === "statusDesc"){
-    if (status === null){
-      return "text-neutral-300";
-    }
-    else if (status === "VTO" || status === "Call Out"){
-      return "text-blue-500";
-    }
-    else if (status === "Sweep" || status === "ADHOC" || status.startsWith("CX") || status.startsWith("AV") || status.startsWith("AX")){
-      return "text-green-400";
-    }
-    else if (status === "Extra"){
-      return "text-fuchsia-400";
-    }
-    else return "text-red-400";
-  }
-  else if(display === "statusDot"){
-    if (status === null){
-      return "bg-neutral-300";
-    }
-    else if (status === "VTO" || status === "Call Out"){
-      return "bg-blue-500";
-    }
-    else if (status === "Sweep" || status === "ADHOC" || status.startsWith("CX") || status.startsWith("AV") || status.startsWith("AX")){
-      return "bg-green-400";
-    }
-    else if (status === "Extra"){
-      return "bg-fuchsia-400";
-    }
-    else return "bg-red-400";
-  }
-}
-
-function DisplayExtras({data}){
-  
-  if(!data || data.length === 0) return <div></div>
-  else return(
-    <div>    
-      <table>
-      <thead>
-
-      </thead>
-      <tbody>
-        {data.map((row, i) => (
-          <tr key={i}> 
-            <td>
-              <div  className={`w-3 h-3 rounded-full ${getStatusColor(row.status, "statusDot")}`}></div>
-            </td>
-            <td>{row.name}</td>
-            <td className={getStatusColor(row.status, "statusDesc")}>{row.status === null ? "N/A" : row.status}</td>
-          </tr>
-        ))}
-      </tbody>
-      </table>
-    </div>
-  )
-}
 
 export default function ExtrasData() {
 
   const [data, setData] = useState([]);
+  let extras = 2;
+  let tellToStayHome = 3;
 
+//send this data as extraData and callOutData to a file called calculateVTO or generate VTO
 
   useEffect(() => {
-    console.log("Updated data:", data);
+    //console.log("Updated data:", data);
+    //console.log(`data length: ${data.length}`);
+    if(data.length > 0 && data.length < 3){
+      console.log(`Extras: ${data.length}`);
+    }
+    else if(data.length >= 3 && data.length <= 5){
+      console.log(`Extras: ${extras}, tell to stay home: ${data.length - extras}`);
+    }
+    else if(data.length > 5){
+      let VTO = data.length - extras - tellToStayHome;
+      console.log(`Extras: ${extras}, tell to stay home: ${tellToStayHome}, VTO: ${VTO}`);
+    }
   }, [data]); // runs AFTER state updates
 
   const handleKeyDown = (e) => {
@@ -87,7 +42,7 @@ export default function ExtrasData() {
   return (
     <div>
       <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
-      <DisplayExtras data={data}/>
+      <DisplayEmployee data={data}/>
     </div>
   );
 } 

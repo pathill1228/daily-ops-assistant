@@ -10,10 +10,16 @@ export default function Home() {
   return (
     <div>
       <h1>Day of Ops Assitant</h1>
-      <h3>Extras</h3>
-      <ExtrasData/>
-      <h3>Call Outs</h3>
-      <CallOutsData/>
+      <div className="flex flex-row">
+        <div className="flex flex-col">
+          <h3>Extras</h3>
+          <ExtrasData/>
+        </div>
+        <div className="flex flex-col pl-2">
+          <h3>Call Outs</h3>
+          <CallOutsData/>
+        </div>
+      </div>
       <FileManager/>
     </div>
   );
