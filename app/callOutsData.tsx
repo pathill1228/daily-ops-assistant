@@ -1,20 +1,20 @@
 "use client";
 import DisplayEmployee from "./displayEmployee";
+import GenerateVTO from "./generateVTO";
+
 
 import { useState, useEffect } from "react";
 
-export default function CallOutsData() {
+export default function CallOutsData({ setCallouts, callouts }) {
 
   const [data, setData] = useState([]);
 
-
   useEffect(() => {
-    console.log("Updated data:", data);
-  }, [data]); // runs AFTER state updates
+    setCallouts(data.length);
+    }, [data, setCallouts]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter'){
-      //console.log('Input Value: ', e.target.value);
       setData([...data, 
         {
           id: data.length, 
@@ -25,7 +25,6 @@ export default function CallOutsData() {
     }
   }
   
-
   return (
     <div>
       <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
