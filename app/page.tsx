@@ -7,6 +7,9 @@ import FileManager from "./fileManager";
 import ExtrasData from "./extrasData";
 import CallOutsData from "./callOutsData";
 import GenerateVTO from "./generateVTO";
+import SweepsData from "./sweepsData";
+import ADHOCData from "./adhocData";
+
 
 import { useState, useEffect } from "react";
 
@@ -15,6 +18,12 @@ export default function Home() {
 
   const [employees, setEmployees] = useState(0);
   const [callouts, setCallouts] = useState(0);
+
+  let tellToStayHome = 3;
+  let sweeps = 2;
+  let extras = 2;
+  let VTO = 0;
+  let ADHOC = 0;
 
   return (
     <div>
@@ -26,14 +35,24 @@ export default function Home() {
         </div>
         <div className="flex flex-col">
           <h3>VTO</h3>
-          <GenerateVTO employees={employees} callouts={callouts}/>
+          <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} ADHOC={ADHOC} employees={employees} callouts={callouts}/>
         </div>
-        <div className="flex flex-col pl-2">
+        <div className="flex flex-col">
           <h3>Call Outs</h3>
           <CallOutsData setCallouts={setCallouts} callouts={callouts}/>
         </div>
       </div>
-      <FileManager/>
+      <div className="flex flex-row justify-end gap-17">
+        <div className="flex flex-col">
+          <h3>Sweep</h3>
+          <SweepsData sweeps={sweeps}/>
+        </div>
+        <div className="flex flex-col">
+          <h3>ADHOC</h3>
+          <ADHOCData ADHOC={ADHOC}/>
+        </div>
+      </div>
+      {/*<FileManager/>*/}
     </div>
   );
 }

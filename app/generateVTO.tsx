@@ -4,14 +4,9 @@ import DisplayEmployee from "./displayEmployee";
 import { useState, useEffect } from "react";
 
 
-  export default function GenerateVTO({ employees, callouts }){
-
-  let tellToStayHome = 3;
-  let sweeps = 2;
-  let extras = 2;
-  let VTO = 0;
+  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, ADHOC, employees, callouts }){
       
-  let employeesLeft = employees - callouts - sweeps;
+  let employeesLeft = employees - callouts - sweeps - ADHOC;
 
   const [data, setData] = useState();
 
