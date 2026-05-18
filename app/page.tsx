@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import UploadFile from "./uploadFile";
-import DisplayFile from "./displayFile";
 import FileManager from "./fileManager";
 import ExtrasData from "./extrasData";
 import CallOutsData from "./callOutsData";
