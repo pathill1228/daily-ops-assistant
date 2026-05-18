@@ -16,6 +16,10 @@ import { useState, useEffect } from "react";
   const [data, setData] = useState();
 
   useEffect(() => {
+    if(VTO === 0){
+      setData([]);
+    }
+
     if(employeesLeft > 0 && employeesLeft < 3){
       console.log(`Extras: ${employeesLeft}`);
       //console.log(`employeesLeft: ${employeesLeft}, employees: ${employees}, callouts: ${callouts}, sweeps: ${sweeps}`);
