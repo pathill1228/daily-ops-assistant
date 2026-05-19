@@ -70,13 +70,29 @@ export default function DisplayEmployee({ data, setData }) {
     setData(updatedData);
   }
 
+  function deleteRow(rowIndex) {
+    const updatedData = data.filter((row, i) => i !== rowIndex);
+    setData(updatedData);
+  }
+
   return(
     <div>
       <table>
         <tbody>
 
           {data.map((row, i) => (
-            <tr key={i}>
+            <tr
+            key={i}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              deleteRow(i);
+              /*const confirmed = confirm("Delete this row?");
+          
+              if (confirmed) {
+                deleteRow(i);
+              }*/
+            }}
+            >
 
               <td>
                 <div
