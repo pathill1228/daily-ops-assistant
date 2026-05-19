@@ -41,6 +41,6 @@ import { useState, useEffect } from "react";
 
 
       return <div className="w-50">
-          <DisplayEmployee data={data}/>
+          <DisplayEmployee data={data} setData={setData}/>
         </div>
   }

@@ -28,7 +28,7 @@ export default function CallOutsData({ setCallouts, callouts }) {
   return (
     <div>
       <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
-      <DisplayEmployee data={data}/>
+      <DisplayEmployee data={data} setData={setData}/>
     </div>
   );
 } 

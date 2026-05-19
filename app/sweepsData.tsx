@@ -13,11 +13,11 @@ export default function SweepsData({sweeps}){
             status: "Sweep",
             route: null,
           }));
-          
+
           setData(newData);
     }, [sweeps]);
 
     return<div>
-        <DisplayEmployee data={data}/>
+        <DisplayEmployee data={data} setData={setData}/>
     </div>
 }

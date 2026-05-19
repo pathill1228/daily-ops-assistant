@@ -18,6 +18,6 @@ export default function ADHOCData({ADHOC}){
     }, [ADHOC]);
 
     return<div>
-        <DisplayEmployee data={data}/>
+        <DisplayEmployee data={data} setData={setData}/>
     </div>
 }
