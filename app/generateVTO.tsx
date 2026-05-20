@@ -1,14 +1,16 @@
 
 "use client";
 import DisplayEmployee from "./displayEmployee";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 
-  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, ADHOC, employees, callouts }){
+  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData }){
       
   let employeesLeft = employees - callouts - sweeps - ADHOC;
 
-  const [data, setData] = useState();
+  useEffect(() => {
+    setVTO(data.length);
+    }, [data, setVTO]);
 
   useEffect(() => {
     if(VTO === 0){
@@ -30,7 +32,7 @@ import { useState, useEffect } from "react";
         id: i,
         name: null,
         status: null,
-        route: null,
+        replacement: null,
       }));
 
       setData(newData);

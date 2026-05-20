@@ -3,11 +3,9 @@ import DisplayEmployee from "./displayEmployee";
 import GenerateVTO from "./generateVTO";
 
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export default function CallOutsData({ setCallouts, callouts }) {
-
-  const [data, setData] = useState([]);
+export default function CallOutsData({ setCallouts, data, setData }) {
 
   useEffect(() => {
     setCallouts(data.length);
@@ -20,7 +18,7 @@ export default function CallOutsData({ setCallouts, callouts }) {
           id: data.length, 
           name: e.target.value, 
           status: null,
-          route: null
+          replacement: null
         }]);
     }
   }

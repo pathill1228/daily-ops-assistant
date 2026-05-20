@@ -7,7 +7,7 @@ function getStatusColor(status, display){
     if (status === null){
       return "text-neutral-300";
     }
-    else if (status === "VTO" || status === "call out"){
+    else if (status === "VTO" || status === "Call Out"){
       return "text-blue-500";
     }
     else if (
@@ -19,7 +19,7 @@ function getStatusColor(status, display){
     ){
       return "text-green-400";
     }
-    else if (status === "extra"){
+    else if (status === "Extra" || status === "SH"){
       return "text-fuchsia-400";
     }
     else return "text-red-400";
@@ -29,7 +29,7 @@ function getStatusColor(status, display){
     if (status === null){
       return "bg-neutral-300";
     }
-    else if (status === "VTO" || status === "call out"){
+    else if (status === "VTO" || status === "Call Out"){
       return "bg-blue-500";
     }
     else if (
@@ -41,7 +41,7 @@ function getStatusColor(status, display){
     ){
       return "bg-green-400";
     }
-    else if (status === "extra"){
+    else if (status === "Extra" || status === "SH"){
       return "bg-fuchsia-400";
     }
     else return "bg-red-400";
@@ -126,6 +126,35 @@ export default function DisplayEmployee({ data, setData }) {
                   row.name
                 )}
               </td>
+
+              {row.status?.startsWith("CX") && (
+                              <td
+                              onClick={() => setEditingCell(`${i}-replacement`)}
+                              className="cursor-pointer w-10 text-neutral-400"
+                            >
+                              {editingCell === `${i}-replacement` ? (
+                                <input
+                                  autoFocus
+                                  placeholder={row.replacement || ""}
+                                  onChange={(e) =>
+                                    updateCell(i, "replacement", e.target.value)
+                                  }
+                                  onBlur={() => setEditingCell(null)}
+                                  className="
+                                  text-white
+                                  border-none
+                                  outline-none
+                                  focus:outline-none
+                                  bg-transparent
+                                  w-full
+                                  p-0
+                                  m-0"
+                                />
+                              ) : (
+                                row.replacement
+                              )}
+                            </td>
+              )}
 
               <td
                 className={`${getStatusColor(row.status, "statusDesc")} cursor-pointer w-20`}

@@ -1,10 +1,8 @@
 "use client";
 import DisplayEmployee from "./displayEmployee";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export default function ADHOCData({ADHOC}){
-
-    const [data, setData] = useState();
+export default function ADHOCData({ ADHOC, data, setData }){
 
     useEffect(()=>{
         const newData = Array.from({ length: ADHOC }, (_, i) => ({
@@ -17,7 +15,7 @@ export default function ADHOCData({ADHOC}){
           setData(newData);
     }, [ADHOC]);
 
-    return<div>
+    return(<div>
         <DisplayEmployee data={data} setData={setData}/>
-    </div>
+    </div>)
 }

@@ -1,10 +1,8 @@
 "use client";
 import DisplayEmployee from "./displayEmployee";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export default function ExtrasData({ setEmployees, employees }) {
-
-  const [data, setData] = useState([]);
+export default function ExtrasData({ setEmployees, data, setData }) {
 
   useEffect(() => {
     setEmployees(data.length);
@@ -17,7 +15,7 @@ export default function ExtrasData({ setEmployees, employees }) {
           id: data.length, 
           name: e.target.value, 
           status: "Extra",
-          route: null
+          replacement: null
         }]);
     }
   }

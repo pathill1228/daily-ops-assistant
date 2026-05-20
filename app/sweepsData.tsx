@@ -1,10 +1,8 @@
 "use client";
 import DisplayEmployee from "./displayEmployee";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export default function SweepsData({sweeps}){
-
-    const [data, setData] = useState();
+export default function SweepsData({sweeps, data, setData}){
 
     useEffect(()=>{
         const newData = Array.from({ length: sweeps }, (_, i) => ({

@@ -8,48 +8,160 @@ import SweepsData from "./sweepsData";
 import ADHOCData from "./adhocData";
 
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 
 export default function Home() {
 
   const [employees, setEmployees] = useState(0);
   const [callouts, setCallouts] = useState(0);
+  const [VTO, setVTO] = useState(0);
+
+  const [employeesData, setEmployeesData] = useState([]);
+  const [calloutsData, setCalloutsData] = useState([]);
+  const [VTOData, setVTOData] = useState([]);
+  const [sweepsData, setSweepsData] = useState([]);
+  const [adhocData, setAdhocData] = useState([]);
+
+  const [copied, setCopied] = useState(false);
+
 
   let tellToStayHome = 3;
   let sweeps = 2;
   let extras = 2;
-  let VTO = 0;
   let ADHOC = 0;
+
+
+  async function getHeraNotes(){
+    const html = `
+    <b><u>Call Outs</u></b><br>
+    ${calloutsData.length === 0
+      ? "NONE"
+      : calloutsData.map(employee => employee.name).join("<br>")}
+    <br></br>
+
+    <b>VTO</b><br>
+    ${VTOData.length === 0
+      ? "NONE"
+      : VTOData.map(employee => employee.name).join("<br>")}
+    <br></br>
+
+    <b>Told to stay home</b><br>
+    ${employeesData.length === 0
+      ? "NONE"
+      : employeesData.filter(employee => employee.status === "SH")
+      .map(employee => employee.name)
+      .join("<br>")}
+    <br></br>
+
+    <b>ADHOC</b><br>
+    ${adhocData.length === 0
+      ? "NONE"
+      : adhocData.map(employee => employee.name).join("<br>")}
+    <br></br>
+
+    <b>Nursery</b>
+    <br></br>
+
+    <b>Late</b>
+    <br></br>
+
+    <b>Sweep</b><br>
+    ${sweepsData.length === 0
+      ? "NONE"
+      : sweepsData.map(employee => employee.name).join("<br>")}
+    <br></br>
+
+    <b>Extras</b><br>
+    ${employeesData === 0
+      ? "NONE"
+      : employeesData.filter(employee => employee.status === "Extra")
+      .map(employee => employee.name)
+      .join("<br>")}
+      <br></br>
+  `;
+
+
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      "text/html": new Blob([html], { type: "text/html" }),
+      "text/plain": new Blob([html.replace(/<br><\/br>|<br>/g, "\n").replace(/<[^>]*>/g, "")], {
+        type: "text/plain",
+      }),
+    }),
+  ]);
+
+  setCopied(true);
+  setTimeout(() => {
+    setCopied(false);
+  }, 2000);
+
+  }
 
   return (
     <div>
       <h1>Day of Ops Assitant</h1>
       <div className="flex flex-row">
         <div className="flex flex-col">
-          <h3>Extras</h3>
-          <ExtrasData setEmployees={setEmployees} employees={employees}/>
+          <div className="flex flex-row w-45 justify-between">
+            <h3>Extras</h3>
+            <p>{employees}</p>
+          </div>
+          <ExtrasData setEmployees={setEmployees} data={employeesData} setData={setEmployeesData}/>
         </div>
         <div className="flex flex-col">
-          <h3>VTO</h3>
-          <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} ADHOC={ADHOC} employees={employees} callouts={callouts}/>
+        <div className="flex flex-row w-40 justify-between ml-5">
+            <h3>VTO</h3>
+            <p>{VTO}</p>
+          </div>
+          <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} setVTO={setVTO} ADHOC={ADHOC} employees={employees} callouts={callouts} data={VTOData} setData={setVTOData}/>
         </div>
         <div className="flex flex-col">
-          <h3>Call Outs</h3>
-          <CallOutsData setCallouts={setCallouts} callouts={callouts}/>
+        <div className="flex flex-row w-45 justify-between">
+            <h3>Call Outs</h3>
+            <p>{callouts}</p>
+          </div>
+          <CallOutsData setCallouts={setCallouts} data={calloutsData} setData={setCalloutsData}/>
         </div>
       </div>
       <div className="flex flex-row justify-end gap-17">
         <div className="flex flex-col">
-          <h3>Sweep</h3>
-          <SweepsData sweeps={sweeps}/>
+        <div className="flex flex-row w-30 justify-between">
+            <h3>Sweeps</h3>
+            <p>{sweeps}</p>
+          </div>
+          <SweepsData sweeps={sweeps} data={sweepsData} setData={setSweepsData}/>
         </div>
         <div className="flex flex-col">
-          <h3>ADHOC</h3>
-          <ADHOCData ADHOC={ADHOC}/>
+        <div className="flex flex-row w-30 justify-between">
+            <h3>ADHOC</h3>
+            <p>{ADHOC}</p>
+          </div>
+          <ADHOCData ADHOC={ADHOC} data={adhocData} setData={setAdhocData}/>
         </div>
       </div>
+      <button className="border p-1 mt-5 mb-2 cursor-pointer hover:text-neutral-500" onClick={getHeraNotes}>Hera Notes</button>
+
       {/*<FileManager/>*/}
+      {copied && (
+        <div
+          className="
+            fixed
+            bottom-5
+            left-1/2
+            -translate-x-1/2
+            bg-neutral-900
+            text-white
+            px-4
+            py-2
+            rounded-lg
+            shadow-lg
+            z-50
+          "
+        >
+          Copied to clipboard
+        </div>
+      )}
     </div>
   );
 }
