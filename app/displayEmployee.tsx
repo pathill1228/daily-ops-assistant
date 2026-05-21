@@ -102,7 +102,7 @@ export default function DisplayEmployee({ data, setData }) {
 
               <td
                 onClick={() => setEditingCell(`${i}-name`)}
-                className="cursor-pointer w-10"
+                className="cursor-pointer w-40"
               >
                 {editingCell === `${i}-name` ? (
                   <input

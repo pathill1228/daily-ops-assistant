@@ -1,6 +1,7 @@
 "use client";
 import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
+import EmployeeInput from "./employeeInput";
 
 export default function ExtrasData({ setEmployees, data, setData }) {
 
@@ -8,24 +9,25 @@ export default function ExtrasData({ setEmployees, data, setData }) {
     setEmployees(data.length);
     }, [data, setEmployees]);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter'){
-      setData([...data, 
-        {
-          id: data.length, 
-          name: e.target.value, 
-          status: null,
-          replacement: null,
-          route: "Extra"
-        }]);
-
-        e.target.value = "";
-    }
+    function handleKeyDown(e, data, setData) {
+      if (e.key === 'Enter'){
+        setData([...data, 
+          {
+            id: data.length, 
+            name: e.target.value, 
+            status: null,
+            replacement: null,
+            route: "Call Out"
+          }]);
+  
+          e.target.value = "";
+      }
   }
 
   return (
     <div>
-      <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
+      {/*<input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>*/}
+      <EmployeeInput handleKeyDown={handleKeyDown} data={data} setData={setData}/>
       <DisplayEmployee data={data} setData={setData}/>
     </div>
   );

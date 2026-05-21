@@ -2,6 +2,7 @@
 import { routeModule } from "next/dist/server/route-modules/pages/builtin/_error";
 import DisplayEmployee from "./displayEmployee";
 import GenerateVTO from "./generateVTO";
+import EmployeeInput from "./employeeInput";
 
 
 import { useEffect } from "react";
@@ -12,7 +13,7 @@ export default function CallOutsData({ setCallouts, data, setData }) {
     setCallouts(data.length);
     }, [data, setCallouts]);
 
-  const handleKeyDown = (e) => {
+  function handleKeyDown(e, data, setData) {
     if (e.key === 'Enter'){
       setData([...data, 
         {
@@ -29,7 +30,8 @@ export default function CallOutsData({ setCallouts, data, setData }) {
   
   return (
     <div>
-      <input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>
+      {/*<input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>*/}
+      <EmployeeInput handleKeyDown={handleKeyDown} data={data} setData={setData}/>
       <DisplayEmployee data={data} setData={setData}/>
     </div>
   );
