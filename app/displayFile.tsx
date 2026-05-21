@@ -8,7 +8,7 @@ export default function DisplayFile({data}){
 
   if(!data) return <div></div>
   else return (
-    <table>
+    <table className="mt-15">
     <thead>
       <tr>
         {Object.keys(data[0]).map((key) => (

@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.10",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.1",
     "ag-grid-react": "^35.2.0",

@@ -82,10 +82,10 @@ export default function UploadFile() {
   }
 
   return (
-    <div>
-      <label htmlFor="fileUpload" className="border p-1">Choose File</label>
+    <div className="flex items-center gap-2 mt-3">
+      <label htmlFor="fileUpload" className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500">Choose File</label>
       <input type="file" className="hidden" id="fileUpload" onChange={handleFileUpload}/>
-      <button className="border ml-2 pl-1 pr-1" onClick={removeFileUpload}>X</button>
+      <button className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500" onClick={removeFileUpload}>X</button>
       <DisplayFile data={data} />
     </div>
   );

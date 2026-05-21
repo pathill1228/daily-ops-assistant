@@ -17,7 +17,7 @@ export default function ExtrasData({ setEmployees, data, setData }) {
             name: e.target.value, 
             status: null,
             replacement: null,
-            route: "Call Out"
+            route: null
           }]);
   
           e.target.value = "";
