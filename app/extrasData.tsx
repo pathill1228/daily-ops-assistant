@@ -14,9 +14,12 @@ export default function ExtrasData({ setEmployees, data, setData }) {
         {
           id: data.length, 
           name: e.target.value, 
-          status: "Extra",
-          replacement: null
+          status: null,
+          replacement: null,
+          route: "Extra"
         }]);
+
+        e.target.value = "";
     }
   }
 

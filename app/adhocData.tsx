@@ -8,8 +8,9 @@ export default function ADHOCData({ ADHOC, data, setData }){
         const newData = Array.from({ length: ADHOC }, (_, i) => ({
             id: i,
             name: null,
-            status: "ADHOC",
-            route: null,
+            status: null,
+            replacement: null,
+            route: "ADHOC"
           }));
           
           setData(newData);

@@ -1,4 +1,5 @@
 "use client";
+import { routeModule } from "next/dist/server/route-modules/pages/builtin/_error";
 import DisplayEmployee from "./displayEmployee";
 import GenerateVTO from "./generateVTO";
 
@@ -18,8 +19,11 @@ export default function CallOutsData({ setCallouts, data, setData }) {
           id: data.length, 
           name: e.target.value, 
           status: null,
-          replacement: null
+          replacement: null,
+          route: "Call Out"
         }]);
+
+        e.target.value = "";
     }
   }
   

@@ -17,6 +17,8 @@ export default function Home() {
   const [callouts, setCallouts] = useState(0);
   const [VTO, setVTO] = useState(0);
 
+  const [editingCell, setEditingCell] = useState(null);
+
   const [employeesData, setEmployeesData] = useState([]);
   const [calloutsData, setCalloutsData] = useState([]);
   const [VTOData, setVTOData] = useState([]);
@@ -27,10 +29,9 @@ export default function Home() {
 
 
   let tellToStayHome = 3;
-  let sweeps = 2;
   let extras = 2;
-  let ADHOC = 0;
-
+  const [adhoc, setAdhoc] = useState(0);
+  const [sweeps, setSweeps] = useState(2);
 
   async function getHeraNotes(){
     const html = `
@@ -114,7 +115,7 @@ export default function Home() {
             <h3>VTO</h3>
             <p>{VTO}</p>
           </div>
-          <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} setVTO={setVTO} ADHOC={ADHOC} employees={employees} callouts={callouts} data={VTOData} setData={setVTOData}/>
+          <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} setVTO={setVTO} ADHOC={adhoc} employees={employees} callouts={callouts} data={VTOData} setData={setVTOData}/>
         </div>
         <div className="flex flex-col">
         <div className="flex flex-row w-45 justify-between">
@@ -128,16 +129,58 @@ export default function Home() {
         <div className="flex flex-col">
         <div className="flex flex-row w-30 justify-between">
             <h3>Sweeps</h3>
-            <p>{sweeps}</p>
+            <p onClick={() => setEditingCell(`sweeps`)}>
+              {editingCell === `sweeps` ? (
+                  <input
+                    autoFocus
+                    placeholder={sweeps}
+                    onChange={(e) =>
+                      setSweeps(e.target.value)
+                    }
+                    onBlur={() => setEditingCell(null)}
+                    className="
+                    text-white
+                    border-none
+                    outline-none
+                    focus:outline-none
+                    bg-transparent
+                    w-full
+                    p-0
+                    m-0"
+                  />
+                ) : (
+                  sweeps
+                )}</p>
           </div>
           <SweepsData sweeps={sweeps} data={sweepsData} setData={setSweepsData}/>
         </div>
         <div className="flex flex-col">
         <div className="flex flex-row w-30 justify-between">
             <h3>ADHOC</h3>
-            <p>{ADHOC}</p>
+            <p onClick={() => setEditingCell(`adhoc`)}>
+              {editingCell === `adhoc` ? (
+                  <input
+                    autoFocus
+                    placeholder={adhoc}
+                    onChange={(e) =>
+                      setAdhoc(e.target.value)
+                    }
+                    onBlur={() => setEditingCell(null)}
+                    className="
+                    text-white
+                    border-none
+                    outline-none
+                    focus:outline-none
+                    bg-transparent
+                    w-full
+                    p-0
+                    m-0"
+                  />
+                ) : (
+                  adhoc
+                )}</p>
           </div>
-          <ADHOCData ADHOC={ADHOC} data={adhocData} setData={setAdhocData}/>
+          <ADHOCData ADHOC={adhoc} data={adhocData} setData={setAdhocData}/>
         </div>
       </div>
       <button className="border p-1 mt-5 mb-2 cursor-pointer hover:text-neutral-500" onClick={getHeraNotes}>Hera Notes</button>

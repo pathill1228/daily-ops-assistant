@@ -6,14 +6,16 @@ import { useEffect } from "react";
 
   export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData }){
       
-  let employeesLeft = employees - callouts - sweeps - ADHOC;
+  let employeesLeft = employees - callouts;
 
   useEffect(() => {
     setVTO(data.length);
     }, [data, setVTO]);
 
   useEffect(() => {
-    if(VTO === 0){
+    employeesLeft = employeesLeft - sweeps - ADHOC;
+
+    if(VTO === 0 || employeesLeft <= 5){
       setData([]);
     }
 
@@ -39,7 +41,7 @@ import { useEffect } from "react";
     } else {
     setData([]);
     }
-  }, [employees, callouts]);
+  }, [employees, callouts, ADHOC, sweeps]);
 
 
       return <div className="w-50">

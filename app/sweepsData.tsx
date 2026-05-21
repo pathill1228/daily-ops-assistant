@@ -8,8 +8,9 @@ export default function SweepsData({sweeps, data, setData}){
         const newData = Array.from({ length: sweeps }, (_, i) => ({
             id: i,
             name: null,
-            status: "Sweep",
-            route: null,
+            status: null,
+            replacement: null,
+            route: "Sweep",
           }));
 
           setData(newData);
