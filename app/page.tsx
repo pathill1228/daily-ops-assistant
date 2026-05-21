@@ -104,30 +104,30 @@ export default function Home() {
       <h1>Day of Ops Assitant</h1>
       <div className="flex flex-row">
         <div className="flex flex-col">
-          <div className="flex flex-row w-45 justify-between">
+          <div className="flex flex-row w-72 justify-between">
             <h3>Extras</h3>
             <p>{employees}</p>
           </div>
           <ExtrasData setEmployees={setEmployees} data={employeesData} setData={setEmployeesData}/>
         </div>
         <div className="flex flex-col">
-        <div className="flex flex-row w-40 justify-between ml-5">
+        <div className="flex flex-row w-72 justify-between ml-5 mr-5">
             <h3>VTO</h3>
             <p>{VTO}</p>
           </div>
           <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} setVTO={setVTO} ADHOC={adhoc} employees={employees} callouts={callouts} data={VTOData} setData={setVTOData}/>
         </div>
         <div className="flex flex-col">
-        <div className="flex flex-row w-45 justify-between">
+        <div className="flex flex-row w-72 justify-between">
             <h3>Call Outs</h3>
             <p>{callouts}</p>
           </div>
           <CallOutsData setCallouts={setCallouts} data={calloutsData} setData={setCalloutsData}/>
         </div>
       </div>
-      <div className="flex flex-row justify-end gap-17">
+      <div className="flex flex-row justify-end gap-5 pt-5">
         <div className="flex flex-col">
-        <div className="flex flex-row w-30 justify-between">
+        <div className="flex flex-row w-72 justify-between">
             <h3>Sweeps</h3>
             <p onClick={() => setEditingCell(`sweeps`)}>
               {editingCell === `sweeps` ? (
@@ -155,7 +155,7 @@ export default function Home() {
           <SweepsData sweeps={sweeps} data={sweepsData} setData={setSweepsData}/>
         </div>
         <div className="flex flex-col">
-        <div className="flex flex-row w-30 justify-between">
+        <div className="flex flex-row w-72 justify-between">
             <h3>ADHOC</h3>
             <p onClick={() => setEditingCell(`adhoc`)}>
               {editingCell === `adhoc` ? (

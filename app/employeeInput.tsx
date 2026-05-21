@@ -47,7 +47,7 @@ export default function EmployeeInput({ handleKeyDown, data, setData }) {
       return splitName[0];
     }
   
-    return `${splitName[0]} ${splitName[1][0]}.`;
+    return `${splitName[0]} ${splitName[1][0]}`;
   }
 
   return (
