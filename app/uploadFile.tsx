@@ -41,6 +41,21 @@ export default function UploadFile() {
       });
     });
 
+    json.forEach(row => {
+      columnsToRemove.forEach(column => {
+        delete row[column];
+      });
+    
+      const newRow = {
+        "Associate Name": "",
+        "Van": "",
+        ...row,
+      };
+    
+      Object.keys(row).forEach(key => delete row[key]);
+      Object.assign(row, newRow);
+    });
+
     return json;
   }
 

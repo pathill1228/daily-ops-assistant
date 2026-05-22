@@ -8,8 +8,8 @@ import SweepsData from "./sweepsData";
 import ADHOCData from "./adhocData";
 
 
-import { useState, useEffect } from "react";
-import { ButtonGroup, Button } from "@material-tailwind/react";
+import { useState } from "react";
+import { Button } from "@material-tailwind/react";
 
 export default function Home() {
 
@@ -102,10 +102,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center mb-50">
+    <div className="flex flex-col justify-center items-center">
       <h1 className="mb-5">Day of Ops Assitant</h1>
 
-      <ButtonGroup className="mt-5 mb-2 w-57 justify-between">
         <Button className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500" 
         onClick={() => {
           if(togglePage)
@@ -113,9 +112,7 @@ export default function Home() {
           else setTogglePage(true);
 
           console.log(togglePage);
-        }}>Employees</Button>
-        <Button className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500">Ops File</Button>
-      </ButtonGroup>
+        }}>Employees / File</Button>
 
       <div className={`${togglePage ? "block" : "hidden"}`}>
         <FileManager/>
