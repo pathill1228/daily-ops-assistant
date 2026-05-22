@@ -3,29 +3,71 @@ import { parseJsonFile } from "next/dist/build/load-jsconfig";
 import { useState } from "react";
 import * as XLSX from "xlsx";
 
+export default function DisplayFile({ cleanedJson, setCleanedJson }) {
+  if (!cleanedJson || cleanedJson.length === 0) return null;
 
-export default function DisplayFile({data}){
+  function handleCellChange(rowIndex, key, value) {
+    setCleanedJson((prevData) => {
+      const updatedData = [...prevData];
 
-  if(!data) return <div></div>
-  else return (
-    <table className="mt-15">
-    <thead>
-      <tr>
-        {Object.keys(data[0]).map((key) => (
-          <th key={key}>{key}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {data.map((row, i) => (
-        <tr key={i}>
-          {Object.values(row).map((value, j) => (
-            <td key={j}>{value}</td>
+      updatedData[rowIndex] = {
+        ...updatedData[rowIndex],
+        [key]: value,
+      };
+
+      return updatedData;
+    });
+  }
+
+  return (
+    <div className="mt-4">
+      <table className="border-collapse border">
+        <thead>
+          <tr>
+            {Object.keys(cleanedJson[0]).map((key) => (
+              <th key={key}>
+                {key}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          {cleanedJson.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {Object.keys(row).map((key) => (
+                <td key={key} className="border">
+                  <input
+                    className="p-1"
+                    value={row[key] ?? ""}
+                    onChange={(e) =>
+                      handleCellChange(rowIndex, key, e.target.value)
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                  
+                        const nextRow = rowIndex + 1;
+                  
+                        const nextInput = document.querySelector(
+                          `input[data-row="${nextRow}"][data-col="${key}"]`
+                        );
+                  
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
+                    data-row={rowIndex}
+                    data-col={key}
+                  />
+                </td>
+              ))}
+            </tr>
           ))}
-        </tr>
-      ))}
-    </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   );
 }
 

@@ -102,10 +102,10 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center mt-30">
       <h1 className="mb-5">Day of Ops Assitant</h1>
 
-        <Button className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500" 
+        <Button className="rounded-none border pt-2 pb-2 pl-5 pr-5 mt-3 cursor-pointer hover:text-neutral-500" 
         onClick={() => {
           if(togglePage)
             setTogglePage(false);

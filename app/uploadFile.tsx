@@ -5,11 +5,10 @@ import * as XLSX from "xlsx";
 import { Z_NO_COMPRESSION } from "zlib";
 import DisplayFile from "./displayFile";
 
-export default function UploadFile() {
+export default function UploadFile({ cleanedJson, setCleanedJson }) {
 
   const [file, setFile] = useState(null);
   const [uploaded, setUploaded] = useState(false);
-  const [data, setData] = useState(null);
 
   //putting excel file into json object 
   async function parseFile(file){
@@ -20,7 +19,7 @@ export default function UploadFile() {
     const json = XLSX.utils.sheet_to_json(sheet);
 
     const cleanedJson = cleanFile(json);
-    setData(cleanedJson);
+    setCleanedJson(cleanedJson);
       console.log(cleanedJson);
 
   }
@@ -54,6 +53,13 @@ export default function UploadFile() {
     
       Object.keys(row).forEach(key => delete row[key]);
       Object.assign(row, newRow);
+    });
+
+    json.sort((a, b) => {
+      const aNum = parseInt(a["Route Code"].replace("CX", ""));
+      const bNum = parseInt(b["Route Code"].replace("CX", ""));
+    
+      return aNum - bNum;
     });
 
     return json;
@@ -97,11 +103,10 @@ export default function UploadFile() {
   }
 
   return (
-    <div className="flex items-center gap-2 mt-3">
+    <div className="flex flex-row gap-1 mt-5 mb-3 justify-center">
       <label htmlFor="fileUpload" className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500">Choose File</label>
       <input type="file" className="hidden" id="fileUpload" onChange={handleFileUpload}/>
       <button className="rounded-none border pt-2 pb-2 pl-5 pr-5 cursor-pointer hover:text-neutral-500" onClick={removeFileUpload}>X</button>
-      <DisplayFile data={data} />
     </div>
   );
 }

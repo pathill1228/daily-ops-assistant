@@ -100,6 +100,8 @@ export default function DisplayEmployee({ data, setData }) {
                 ></div>
               </td>
 
+              {/*<EmployeeInputCell/>*/}
+
               <td
                 onClick={() => setEditingCell(`${i}-name`)}
                 className="cursor-pointer w-40"
@@ -125,7 +127,7 @@ export default function DisplayEmployee({ data, setData }) {
                 ) : (
                   row.name
                 )}
-              </td>
+                </td>
 
               {row.status?.startsWith("CX") && (
                               <td
