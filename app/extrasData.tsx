@@ -3,7 +3,7 @@ import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 import EmployeeInput from "./employeeInput";
 
-export default function ExtrasData({ setEmployees, data, setData }) {
+export default function ExtrasData({ setEmployees, data, setData, syncExtraToRoute }) {
 
   useEffect(() => {
     setEmployees(data.length);
@@ -28,7 +28,7 @@ export default function ExtrasData({ setEmployees, data, setData }) {
     <div>
       {/*<input className="border p-1 mb-2" placeholder="Employee Name" onKeyDown={handleKeyDown}></input>*/}
       <EmployeeInput handleKeyDown={handleKeyDown} data={data} setData={setData}/>
-      <DisplayEmployee data={data} setData={setData}/>
+      <DisplayEmployee data={data} setData={setData} syncExtraToRoute={syncExtraToRoute}/>
     </div>
   );
 } 

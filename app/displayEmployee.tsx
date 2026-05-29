@@ -7,19 +7,19 @@ function getStatusColor(status, display){
     if (status === null){
       return "text-neutral-300";
     }
-    else if (status === "VTO" || status === "Call Out"){
+    else if (status.toLowerCase() === "vto" || status.toLowerCase() === "call out"){
       return "text-blue-500";
     }
     else if (
-      status === "Sweep" ||
-      status === "ADHOC" ||
-      status.startsWith("CX") ||
-      status.startsWith("AV") ||
-      status.startsWith("AX")
+      status.toLowerCase() === "sweep" ||
+      status.toLowerCase() === "adhoc" ||
+      status.toLowerCase().startsWith("cx") ||
+      status.toLowerCase().startsWith("av") ||
+      status.toLowerCase().startsWith("ax")
     ){
       return "text-green-400";
     }
-    else if (status === "Extra" || status === "SH"){
+    else if (status.toLowerCase() === "extra" || status.toLowerCase() === "sh"){
       return "text-fuchsia-400";
     }
     else return "text-red-400";
@@ -29,45 +29,54 @@ function getStatusColor(status, display){
     if (status === null){
       return "bg-neutral-300";
     }
-    else if (status === "VTO" || status === "Call Out"){
+    else if (status.toLowerCase() === "vto" || status.toLowerCase() === "call out"){
       return "bg-blue-500";
     }
     else if (
-      status === "Sweep" ||
-      status === "ADHOC" ||
-      status.startsWith("CX") ||
-      status.startsWith("AV") ||
-      status.startsWith("AX")
+      status.toLowerCase() === "sweep" ||
+      status.toLowerCase() === "adhoc" ||
+      status.toLowerCase().startsWith("cx") ||
+      status.toLowerCase().startsWith("av") ||
+      status.toLowerCase().startsWith("ax")
     ){
       return "bg-green-400";
     }
-    else if (status === "Extra" || status === "SH"){
+    else if (status.toLowerCase() === "extra" || status.toLowerCase() === "sh"){
       return "bg-fuchsia-400";
     }
     else return "bg-red-400";
   }
 }
 
-export default function DisplayEmployee({ data, setData }) {
+export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
 
   const [editingCell, setEditingCell] = useState(null);
 
   if(!data || data.length === 0) return <div></div>
 
-  function updateCell(rowIndex, key, value){
-
+  function updateCell(rowIndex, key, value) {
+    const currentEmployee = data[rowIndex];
+  
     const updatedData = data.map((row, i) => {
-      if(i === rowIndex){
+      if (i === rowIndex) {
         return {
           ...row,
-          [key]: value
+          [key]: value,
         };
       }
-
+  
       return row;
     });
-
+  
     setData(updatedData);
+  
+    if (
+      key === "status" &&
+      (value.toLowerCase() === "adhoc" || value.toLowerCase() === "sweep") &&
+      syncExtraToRoute
+    ) {
+      syncExtraToRoute(currentEmployee, value);
+    }
   }
 
   function deleteRow(rowIndex) {

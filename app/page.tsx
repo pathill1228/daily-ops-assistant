@@ -98,8 +98,37 @@ export default function Home() {
   setTimeout(() => {
     setCopied(false);
   }, 2000);
-
   }
+
+  
+  function syncExtraToRoute(employee, newStatus) {
+    const updateFirstBlankRow = (prev) => {
+      let hasUpdated = false;
+  
+      return prev.map((row) => {
+        if (!hasUpdated && !row.name && row.route === newStatus) {
+          hasUpdated = true;
+  
+          return {
+            ...row,
+            name: employee.name,
+            status: "Extra",
+          };
+        }
+  
+        return row;
+      });
+    };
+  
+    if (newStatus.toLowerCase() === "adhoc") {
+      setAdhocData(updateFirstBlankRow);
+    }
+  
+    if (newStatus.toLowerCase() === "sweep") {
+      setSweepsData(updateFirstBlankRow);
+    }
+  }
+
 
   return (
     <div className="flex flex-col justify-center items-center mt-30">
@@ -125,7 +154,7 @@ export default function Home() {
               <h3>Extras</h3>
               <p>{employees}</p>
             </div>
-            <ExtrasData setEmployees={setEmployees} data={employeesData} setData={setEmployeesData}/>
+            <ExtrasData setEmployees={setEmployees} data={employeesData} setData={setEmployeesData} syncExtraToRoute={syncExtraToRoute}/>
           </div>
           <div className="flex flex-col">
           <div className="flex flex-row w-72 justify-between ml-5 mr-5">

@@ -10,7 +10,7 @@ export default function ADHOCData({ ADHOC, data, setData }){
             name: null,
             status: null,
             replacement: null,
-            route: "ADHOC"
+            route: "adhoc"
           }));
           
           setData(newData);

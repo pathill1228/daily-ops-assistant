@@ -10,7 +10,7 @@ export default function SweepsData({sweeps, data, setData}){
             name: null,
             status: null,
             replacement: null,
-            route: "Sweep",
+            route: "sweep",
           }));
 
           setData(newData);
