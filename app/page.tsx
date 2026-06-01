@@ -6,6 +6,7 @@ import CallOutsData from "./callOutsData";
 import GenerateVTO from "./generateVTO";
 import SweepsData from "./sweepsData";
 import ADHOCData from "./adhocData";
+import MiscData from "./miscData";
 
 
 import { useState } from "react";
@@ -24,6 +25,8 @@ export default function Home() {
   const [VTOData, setVTOData] = useState([]);
   const [sweepsData, setSweepsData] = useState([]);
   const [adhocData, setAdhocData] = useState([]);
+  const [miscData, setMiscData] = useState([]);
+
 
   const [copied, setCopied] = useState(false);
 
@@ -32,6 +35,7 @@ export default function Home() {
   let extras = 2;
   const [adhoc, setAdhoc] = useState(0);
   const [sweeps, setSweeps] = useState(2);
+  const [misc, setMisc] = useState(0);
 
   const [togglePage, setTogglePage] = useState(false);
 
@@ -41,7 +45,13 @@ export default function Home() {
     <b><u>Call Outs</u></b><br>
     ${calloutsData.length === 0
       ? "NONE"
-      : calloutsData.map(employee => employee.name).join("<br>")}
+      : calloutsData
+          .map(employee =>
+            employee.callOutReason
+              ? `${employee.name} - ${employee.callOutReason}`
+              : employee.name
+          )
+          .join("<br>")}
     <br></br>
 
     <b>VTO</b><br>
@@ -172,6 +182,34 @@ export default function Home() {
           </div>
         </div>
         <div className="flex flex-row justify-end gap-5 pt-5">
+        <div className="flex flex-col">
+          <div className="flex flex-row w-72 justify-between">
+              <h3>Misc</h3>
+              <p onClick={() => setEditingCell(`misc`)}>
+                {editingCell === `misc` ? (
+                    <input
+                      autoFocus
+                      placeholder={misc}
+                      onChange={(e) =>
+                        setMisc(e.target.value)
+                      }
+                      onBlur={() => setEditingCell(null)}
+                      className="
+                      text-white
+                      border-none
+                      outline-none
+                      focus:outline-none
+                      bg-transparent
+                      w-full
+                      p-0
+                      m-0"
+                    />
+                  ) : (
+                    misc
+                  )}</p>
+            </div>
+            <MiscData misc={misc} data={miscData} setData={setMiscData}/>
+          </div>
           <div className="flex flex-col">
           <div className="flex flex-row w-72 justify-between">
               <h3>Sweeps</h3>

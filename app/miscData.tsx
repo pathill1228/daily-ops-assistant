@@ -2,22 +2,22 @@
 import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
-export default function SweepsData({sweeps, data, setData}){
+export default function miscData({ misc, data, setData }){
 
     useEffect(()=>{
-        const newData = Array.from({ length: sweeps }, (_, i) => ({
+        const newData = Array.from({ length: misc }, (_, i) => ({
             id: i,
             name: null,
             status: null,
             replacement: null,
             callOutReason: "",
-            route: "sweep",
+            route: null
           }));
-
+          
           setData(newData);
-    }, [sweeps]);
+    }, [misc]);
 
-    return<div>
+    return(<div>
         <DisplayEmployee data={data} setData={setData}/>
-    </div>
+    </div>)
 }

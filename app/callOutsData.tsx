@@ -21,6 +21,7 @@ export default function CallOutsData({ setCallouts, data, setData }) {
           name: e.target.value, 
           status: null,
           replacement: null,
+          callOutReason: "",
           route: "Call Out"
         }]);
 

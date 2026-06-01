@@ -3,6 +3,7 @@
 import { useState } from "react";
 import UploadFile from "./uploadFile";
 import DisplayFile from "./displayFile";
+import VanInput from "./vanInput";
 import * as XLSX from "xlsx";
 
 
@@ -41,6 +42,7 @@ export default function FileManager() {
     <div>
       <DisplayFile cleanedJson={cleanedJson} setCleanedJson={setCleanedJson}/>
       <UploadFile cleanedJson={cleanedJson} setCleanedJson={setCleanedJson} />
+      <VanInput/>
       <button
         onClick={downloadCSV}
         disabled={cleanedJson.length === 0}

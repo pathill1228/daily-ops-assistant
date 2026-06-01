@@ -17,6 +17,7 @@ export default function ExtrasData({ setEmployees, data, setData, syncExtraToRou
             name: e.target.value, 
             status: null,
             replacement: null,
+            callOutReason: "",
             route: null
           }]);
   

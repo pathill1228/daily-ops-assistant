@@ -51,6 +51,9 @@ function getStatusColor(status, display){
 export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
 
   const [editingCell, setEditingCell] = useState(null);
+  const [reasonPopup, setReasonPopup] = useState(false);
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [reasonValue, setReasonValue] = useState("");
 
   if(!data || data.length === 0) return <div></div>
 
@@ -92,6 +95,11 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
           {data.map((row, i) => (
             <tr
             key={i}
+            onDoubleClick={() => {
+              setSelectedRowIndex(i);
+              setReasonValue(row.callOutReason || "");
+              setReasonPopup(true);
+            }}
             onContextMenu={(e) => {
               e.preventDefault();
               deleteRow(i);
@@ -171,24 +179,52 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                 className={`${getStatusColor(row.status, "statusDesc")} cursor-pointer w-20`}
                 onClick={() => setEditingCell(`${i}-status`)}
               >
-                {editingCell === `${i}-status` ? (
+                {editingCell === `${i}-status` || editingCell === `${i}-status-open` ? (
+                  <div className="relative">
                   <input
                     autoFocus
-                    placeholder={row.status || ""}
-                    onChange={(e) =>
-                      updateCell(i, "status", e.target.value)
-                    }
-                    onBlur={() => setEditingCell(null)}
+                    value={row.status || ""}
+                    onChange={(e) => {
+                      let value = e.target.value.trim();
+                
+                      if (/^\d+$/.test(value)) {
+                        value = `CX${value}`;
+                      }
+                
+                      updateCell(i, "status", value);
+                    }}
+                    onFocus={() => setEditingCell(`${i}-status-open`)}
+                    onBlur={() => {
+                      setTimeout(() => setEditingCell(null), 150);
+                    }}
                     className="
-                    text-white
-                    border-none
-                    outline-none
-                    focus:outline-none
-                    bg-transparent
-                    w-full
-                    p-0
-                    m-0"
+                      text-white
+                      border-none
+                      outline-none
+                      bg-transparent
+                      w-full
+                      p-0
+                      m-0
+                    "
                   />
+                
+                  {editingCell === `${i}-status-open` && (
+                    <div className="absolute top-full left-0 bg-neutral-900 border w-32 z-50">
+                      {["call out", "vto", "sweep", "adhoc", "Extra", "SH", null].map((option) => (
+                        <div
+                          key={option}
+                          className="px-2 py-1 cursor-pointer hover:bg-neutral-700"
+                          onClick={() => {
+                            updateCell(i, "status", option);
+                            setEditingCell(null);
+                          }}
+                        >
+                          {option === null ? "N/A" : option}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 ) : (
                   row.status === null ? "N/A" : row.status
                 )}
@@ -199,6 +235,41 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
 
         </tbody>
       </table>
+
+      {reasonPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-neutral-900 border p-5 w-80">
+            <h3 className="mb-3">Notes</h3>
+
+            <textarea
+              autoFocus
+              value={reasonValue}
+              onChange={(e) => setReasonValue(e.target.value)}
+              className="w-full h-28 text-white bg-transparent border p-2 outline-none"
+              placeholder="Enter reason..."
+            />
+
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                className="border px-3 py-1"
+                onClick={() => setReasonPopup(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="border px-3 py-1"
+                onClick={() => {
+                  updateCell(selectedRowIndex, "callOutReason", reasonValue);
+                  setReasonPopup(false);
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
