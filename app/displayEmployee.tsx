@@ -75,7 +75,8 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
   
     if (
       key === "status" &&
-      (value.toLowerCase() === "adhoc" || value.toLowerCase() === "sweep") &&
+      typeof value === "string" &&
+      ["adhoc", "sweep", "vto", "call out"].includes(value.toLowerCase()) &&
       syncExtraToRoute
     ) {
       syncExtraToRoute(currentEmployee, value);

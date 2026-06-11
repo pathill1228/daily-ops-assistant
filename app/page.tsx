@@ -110,19 +110,32 @@ export default function Home() {
   }, 2000);
   }
 
-  
   function syncExtraToRoute(employee, newStatus) {
+    const normalizedStatus = newStatus?.trim().toLowerCase();
+  
+    const newEmployee = {
+      id: Date.now(),
+      name: employee.name,
+      status: "Extra",
+      replacement: employee.replacement ?? null,
+      route: newStatus,
+      callOutReason: employee.callOutReason ?? "",
+    };
+  
     const updateFirstBlankRow = (prev) => {
       let hasUpdated = false;
   
       return prev.map((row) => {
-        if (!hasUpdated && !row.name && row.route === newStatus) {
+        const rowRoute = row.route?.trim().toLowerCase();
+  
+        if (!hasUpdated && !row.name && rowRoute === normalizedStatus) {
           hasUpdated = true;
   
           return {
             ...row,
             name: employee.name,
             status: "Extra",
+            callOutReason: employee.callOutReason ?? "",
           };
         }
   
@@ -130,14 +143,48 @@ export default function Home() {
       });
     };
   
-    if (newStatus.toLowerCase() === "adhoc") {
+    if (normalizedStatus === "adhoc") {
       setAdhocData(updateFirstBlankRow);
     }
   
-    if (newStatus.toLowerCase() === "sweep") {
+    if (normalizedStatus === "sweep") {
       setSweepsData(updateFirstBlankRow);
     }
-  }
+  
+    if (normalizedStatus === "vto") {
+      setVTOData((prev) => {
+        if (prev.length === 0) return prev;
+  
+        let hasUpdated = false;
+  
+        return prev.map((row) => {
+          if (!hasUpdated && !row.name) {
+            hasUpdated = true;
+  
+            return {
+              ...row,
+              name: employee.name,
+              status: "Extra",
+              route: "VTO",
+              callOutReason: employee.callOutReason ?? "",
+            };
+          }
+  
+          return row;
+        });
+      });
+    }
+  
+    if (normalizedStatus === "call out") {
+      setCalloutsData((prev) => [
+        ...prev,
+        {
+          ...newEmployee,
+          route: "Call Out",
+        },
+      ]);
+    }
+  } 
 
 
   return (
