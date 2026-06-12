@@ -40,8 +40,12 @@ export default function FileManager() {
 
   return (
     <div>
-      <DisplayFile cleanedJson={cleanedJson} setCleanedJson={setCleanedJson}/>
-      <UploadFile cleanedJson={cleanedJson} setCleanedJson={setCleanedJson} />
+      <DisplayFile cleanedJson={cleanedJson} 
+      setCleanedJson={setCleanedJson}
+      />
+      <UploadFile cleanedJson={cleanedJson} 
+      setCleanedJson={setCleanedJson} 
+      />
       <VanInput/>
       <button
         onClick={downloadCSV}

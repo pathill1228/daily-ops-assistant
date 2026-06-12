@@ -2,7 +2,7 @@
 import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
-export default function miscData({ misc, data, setData }){
+export default function miscData({ misc, data, setData, syncCXReplacements }){
 
     useEffect(()=>{
         const newData = Array.from({ length: misc }, (_, i) => ({
@@ -18,6 +18,6 @@ export default function miscData({ misc, data, setData }){
     }, [misc]);
 
     return(<div>
-        <DisplayEmployee data={data} setData={setData}/>
+        <DisplayEmployee data={data} setData={setData} syncCXReplacements={syncCXReplacements}/>
     </div>)
 }

@@ -2,7 +2,7 @@
 import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
-export default function ADHOCData({ ADHOC, data, setData }){
+export default function ADHOCData({ ADHOC, data, setData, syncCXReplacements }){
 
     useEffect(()=>{
         const newData = Array.from({ length: ADHOC }, (_, i) => ({
@@ -18,6 +18,6 @@ export default function ADHOCData({ ADHOC, data, setData }){
     }, [ADHOC]);
 
     return(<div>
-        <DisplayEmployee data={data} setData={setData}/>
+        <DisplayEmployee data={data} setData={setData} syncCXReplacements={syncCXReplacements}/>
     </div>)
 }

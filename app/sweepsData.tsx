@@ -2,7 +2,7 @@
 import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
-export default function SweepsData({sweeps, data, setData}){
+export default function SweepsData({sweeps, data, setData, syncCXReplacements }){
 
     useEffect(()=>{
         const newData = Array.from({ length: sweeps }, (_, i) => ({
@@ -18,6 +18,6 @@ export default function SweepsData({sweeps, data, setData}){
     }, [sweeps]);
 
     return<div>
-        <DisplayEmployee data={data} setData={setData}/>
+        <DisplayEmployee data={data} setData={setData} syncCXReplacements={syncCXReplacements}/>
     </div>
 }

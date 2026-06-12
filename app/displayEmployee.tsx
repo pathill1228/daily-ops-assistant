@@ -48,7 +48,18 @@ function getStatusColor(status, display){
   }
 }
 
-export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
+function getInitials(name) {
+  if (!name) return "";
+
+  return name
+    .trim()
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+
+export default function DisplayEmployee({ data, setData, syncExtraToRoute, syncCXReplacements }) {
 
   const [editingCell, setEditingCell] = useState(null);
   const [reasonPopup, setReasonPopup] = useState(false);
@@ -60,7 +71,7 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
   function updateCell(rowIndex, key, value) {
     const currentEmployee = data[rowIndex];
   
-    const updatedData = data.map((row, i) => {
+    let updatedData = data.map((row, i) => {
       if (i === rowIndex) {
         return {
           ...row,
@@ -71,7 +82,50 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
       return row;
     });
   
+    // Recalculate CX replacements after name or status changes
+    if (key === "name" || key === "status") {
+      const cxGroups = {};
+    
+      updatedData.forEach((row, index) => {
+        const status = row.status?.toString().trim().toLowerCase();
+    
+        if (status?.startsWith("cx")) {
+          if (!cxGroups[status]) {
+            cxGroups[status] = [];
+          }
+    
+          cxGroups[status].push(index);
+        }
+      });
+    
+      updatedData = updatedData.map((row, index) => {
+        const status = row.status?.toString().trim().toLowerCase();
+    
+        if (!status?.startsWith("cx")) {
+          return row;
+        }
+    
+        const group = cxGroups[status];
+    
+        if (!group || group.length < 2) {
+          return {
+            ...row,
+            replacement: "",
+          };
+        }
+    
+        const otherIndex = group.find((i) => i !== index);
+    
+        return {
+          ...row,
+          replacement: getInitials(updatedData[otherIndex].name),
+        };
+      });
+    }
+  
     setData(updatedData);
+
+    syncCXReplacements?.(updatedData, setData);
   
     if (
       key === "status" &&
@@ -127,7 +181,7 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                 {editingCell === `${i}-name` ? (
                   <input
                     autoFocus
-                    placeholder={row.name || ""}
+                    value={row.name || ""}
                     onChange={(e) =>
                       updateCell(i, "name", e.target.value)
                     }
@@ -147,7 +201,7 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                 )}
                 </td>
 
-              {row.status?.startsWith("CX") && (
+                {row.status?.toLowerCase().startsWith("cx") && (
                               <td
                               onClick={() => setEditingCell(`${i}-replacement`)}
                               className="cursor-pointer w-10 text-neutral-400"
@@ -155,7 +209,7 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                               {editingCell === `${i}-replacement` ? (
                                 <input
                                   autoFocus
-                                  placeholder={row.replacement || ""}
+                                  value={row.replacement || ""}
                                   onChange={(e) =>
                                     updateCell(i, "replacement", e.target.value)
                                   }
@@ -186,16 +240,17 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                     autoFocus
                     value={row.status || ""}
                     onChange={(e) => {
-                      let value = e.target.value.trim();
-                
-                      if (/^\d+$/.test(value)) {
-                        value = `CX${value}`;
-                      }
-                
-                      updateCell(i, "status", value);
+                      updateCell(i, "status", e.target.value);
                     }}
                     onFocus={() => setEditingCell(`${i}-status-open`)}
-                    onBlur={() => {
+                    onBlur={(e) => {
+                      let value = e.target.value.trim();
+
+                      if (/^\d+$/.test(value)) {
+                        value = `CX${value}`;
+                        updateCell(i, "status", value);
+                      }
+
                       setTimeout(() => setEditingCell(null), 150);
                     }}
                     className="
@@ -215,7 +270,8 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute }) {
                         <div
                           key={option}
                           className="px-2 py-1 cursor-pointer hover:bg-neutral-700"
-                          onClick={() => {
+                          onMouseDown={(e) => {
+                            e.preventDefault();
                             updateCell(i, "status", option);
                             setEditingCell(null);
                           }}

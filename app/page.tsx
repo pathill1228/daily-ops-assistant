@@ -110,6 +110,101 @@ export default function Home() {
   }, 2000);
   }
 
+  function getInitials(name) {
+    if (!name) return "";
+  
+    return name
+      .trim()
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+  }
+  
+  function syncCXReplacements(changedData, changedSetData) {
+    const allRows = [
+      ...employeesData.map((row, index) => ({
+        ...row,
+        source: "employees",
+        index,
+      })),
+      ...calloutsData.map((row, index) => ({
+        ...row,
+        source: "callouts",
+        index,
+      })),
+      ...VTOData.map((row, index) => ({
+        ...row,
+        source: "vto",
+        index,
+      })),
+      ...sweepsData.map((row, index) => ({
+        ...row,
+        source: "sweeps",
+        index,
+      })),
+      ...adhocData.map((row, index) => ({
+        ...row,
+        source: "adhoc",
+        index,
+      })),
+      ...miscData.map((row, index) => ({
+        ...row,
+        source: "misc",
+        index,
+      })),
+    ];
+  
+    const changedRows = changedData.map((row, index) => ({
+      ...row,
+      source: "changed",
+      index,
+    }));
+  
+    const combinedRows = [...allRows, ...changedRows];
+  
+    const cxRows = combinedRows.filter((row) =>
+      row.status?.toString().trim().toLowerCase().startsWith("cx")
+    );
+  
+    function updateData(prev, source) {
+      return prev.map((row, index) => {
+        const status = row.status?.toString().trim().toLowerCase();
+  
+        if (!status?.startsWith("cx")) return row;
+  
+        const matchingRows = cxRows.filter((otherRow) => {
+          const otherStatus = otherRow.status
+            ?.toString()
+            .trim()
+            .toLowerCase();
+  
+          return otherStatus === status;
+        });
+  
+        const otherPerson = matchingRows.find(
+          (otherRow) =>
+            !(otherRow.source === source && otherRow.index === index) &&
+            otherRow.name !== row.name
+        );
+  
+        return {
+          ...row,
+          replacement: otherPerson ? getInitials(otherPerson.name) : "",
+        };
+      });
+    }
+  
+    changedSetData((prev) => updateData(prev, "changed"));
+  
+    setEmployeesData((prev) => updateData(prev, "employees"));
+    setCalloutsData((prev) => updateData(prev, "callouts"));
+    setVTOData((prev) => updateData(prev, "vto"));
+    setSweepsData((prev) => updateData(prev, "sweeps"));
+    setAdhocData((prev) => updateData(prev, "adhoc"));
+    setMiscData((prev) => updateData(prev, "misc"));
+  }
+
   function syncExtraToRoute(employee, newStatus) {
     const normalizedStatus = newStatus?.trim().toLowerCase();
   
@@ -211,21 +306,41 @@ export default function Home() {
               <h3>Extras</h3>
               <p>{employees}</p>
             </div>
-            <ExtrasData setEmployees={setEmployees} data={employeesData} setData={setEmployeesData} syncExtraToRoute={syncExtraToRoute}/>
+            <ExtrasData setEmployees={setEmployees} 
+            data={employeesData} 
+            setData={setEmployeesData} 
+            syncExtraToRoute={syncExtraToRoute}
+            syncCXReplacements={syncCXReplacements}
+            />
           </div>
           <div className="flex flex-col">
           <div className="flex flex-row w-72 justify-between ml-5 mr-5">
               <h3>VTO</h3>
               <p>{VTO}</p>
             </div>
-            <GenerateVTO tellToStayHome={tellToStayHome} sweeps={sweeps} extras={extras} VTO={VTO} setVTO={setVTO} ADHOC={adhoc} employees={employees} callouts={callouts} data={VTOData} setData={setVTOData}/>
+            <GenerateVTO tellToStayHome={tellToStayHome} 
+            sweeps={sweeps} 
+            extras={extras} 
+            VTO={VTO} 
+            setVTO={setVTO} 
+            ADHOC={adhoc} 
+            employees={employees} 
+            callouts={callouts} 
+            data={VTOData} 
+            setData={setVTOData}
+            syncCXReplacements={syncCXReplacements}
+            />
           </div>
           <div className="flex flex-col">
           <div className="flex flex-row w-72 justify-between">
               <h3>Call Outs</h3>
               <p>{callouts}</p>
             </div>
-            <CallOutsData setCallouts={setCallouts} data={calloutsData} setData={setCalloutsData}/>
+            <CallOutsData setCallouts={setCallouts} 
+            data={calloutsData} 
+            setData={setCalloutsData}
+            syncCXReplacements={syncCXReplacements}
+            />
           </div>
         </div>
         <div className="flex flex-row justify-end gap-5 pt-5">
@@ -255,7 +370,11 @@ export default function Home() {
                     misc
                   )}</p>
             </div>
-            <MiscData misc={misc} data={miscData} setData={setMiscData}/>
+            <MiscData misc={misc} 
+            data={miscData} 
+            setData={setMiscData}
+            syncCXReplacements={syncCXReplacements}
+            />
           </div>
           <div className="flex flex-col">
           <div className="flex flex-row w-72 justify-between">
@@ -283,7 +402,11 @@ export default function Home() {
                     sweeps
                   )}</p>
             </div>
-            <SweepsData sweeps={sweeps} data={sweepsData} setData={setSweepsData}/>
+            <SweepsData sweeps={sweeps} 
+            data={sweepsData} 
+            setData={setSweepsData}
+            syncCXReplacements={syncCXReplacements}
+            />
           </div>
             <div className="flex flex-col">
             <div className="flex flex-row w-72 justify-between">
@@ -311,7 +434,11 @@ export default function Home() {
                       adhoc
                     )}</p>
               </div>
-              <ADHOCData ADHOC={adhoc} data={adhocData} setData={setAdhocData}/>
+              <ADHOCData ADHOC={adhoc} 
+              data={adhocData} 
+              setData={setAdhocData}
+              syncCXReplacements={syncCXReplacements}
+              />
             </div>
           </div>
           <Button className="rounded-none border p-1 mt-5 mb-2 w-35 h-10 cursor-pointer hover:text-neutral-500" onClick={getHeraNotes}>Hera Notes</Button>

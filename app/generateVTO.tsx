@@ -4,7 +4,7 @@ import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
 
-  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData }){
+  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData,  syncCXReplacements }){
       
   let employeesLeft = employees - callouts;
 
@@ -45,6 +45,6 @@ import { useEffect } from "react";
 
 
       return <div className="w-50">
-          <DisplayEmployee data={data} setData={setData}/>
+          <DisplayEmployee data={data} setData={setData} syncCXReplacements={syncCXReplacements}/>
         </div>
   }
