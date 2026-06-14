@@ -3,7 +3,7 @@ import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 import EmployeeInput from "./employeeInput";
 
-export default function ExtrasData({ setEmployees, data, setData, syncExtraToRoute, syncCXReplacements }) {
+export default function ExtrasData({ setEmployees, data, setData, misc, syncExtraToRoute, syncCXReplacements }) {
 
   useEffect(() => {
     setEmployees(data.length);

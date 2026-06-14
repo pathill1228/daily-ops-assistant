@@ -4,7 +4,7 @@ import DisplayEmployee from "./displayEmployee";
 import { useEffect } from "react";
 
 
-  export default function GenerateVTO({ tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData,  syncCXReplacements }){
+  export default function GenerateVTO({ misc, tellToStayHome, sweeps, extras, VTO, setVTO, ADHOC, employees, callouts, data, setData,  syncCXReplacements }){
       
   let employeesLeft = employees - callouts;
 

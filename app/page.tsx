@@ -309,6 +309,7 @@ export default function Home() {
             <ExtrasData setEmployees={setEmployees} 
             data={employeesData} 
             setData={setEmployeesData} 
+            misc={misc}
             syncExtraToRoute={syncExtraToRoute}
             syncCXReplacements={syncCXReplacements}
             />
@@ -318,7 +319,8 @@ export default function Home() {
               <h3>VTO</h3>
               <p>{VTO}</p>
             </div>
-            <GenerateVTO tellToStayHome={tellToStayHome} 
+            <GenerateVTO misc={misc}
+            tellToStayHome={tellToStayHome} 
             sweeps={sweeps} 
             extras={extras} 
             VTO={VTO} 
@@ -371,8 +373,11 @@ export default function Home() {
                   )}</p>
             </div>
             <MiscData misc={misc} 
+            setMisc={setMisc}
             data={miscData} 
             setData={setMiscData}
+            employeesData={employeesData} 
+            setEmployeesData={setEmployeesData} 
             syncCXReplacements={syncCXReplacements}
             />
           </div>
@@ -443,6 +448,7 @@ export default function Home() {
           </div>
           <Button className="rounded-none border p-1 mt-5 mb-2 w-35 h-10 cursor-pointer hover:text-neutral-500" onClick={getHeraNotes}>Hera Notes</Button>
 
+          {/*COPY FOR HERA NOTES*/}
           {copied && (
             <div
               className="
