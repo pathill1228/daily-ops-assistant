@@ -226,6 +226,38 @@ export default function Home() {
 
   function syncExtraToRoute(employee, newStatus) {
     const normalizedStatus = newStatus?.trim().toLowerCase();
+
+    const removeEmployeeFromOtherSections = () => {
+      setVTOData((prev) =>
+        prev.map((row) =>
+          row.name === employee.name
+            ? { ...row, name: null, status: null, replacement: null, callOutReason: "" }
+            : row
+        )
+      );
+    
+      setAdhocData((prev) =>
+        prev.map((row) =>
+          row.name === employee.name
+            ? { ...row, name: null, status: null, replacement: null, callOutReason: "" }
+            : row
+        )
+      );
+    
+      setSweepsData((prev) =>
+        prev.map((row) =>
+          row.name === employee.name
+            ? { ...row, name: null, status: null, replacement: null, callOutReason: "" }
+            : row
+        )
+      );
+    
+      setCalloutsData((prev) =>
+        prev.filter((row) => row.name !== employee.name)
+      );
+    };
+    
+    removeEmployeeFromOtherSections();
   
     const newEmployee = {
       id: Date.now(),

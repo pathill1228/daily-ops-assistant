@@ -46,7 +46,10 @@ export default function FileManager() {
       <UploadFile cleanedJson={cleanedJson} 
       setCleanedJson={setCleanedJson} 
       />
-      <VanInput/>
+      <VanInput
+        cleanedJson={cleanedJson}
+        setCleanedJson={setCleanedJson}
+      />
       <button
         onClick={downloadCSV}
         disabled={cleanedJson.length === 0}
