@@ -59,7 +59,7 @@ function getInitials(name) {
     .toUpperCase();
 }
 
-export default function DisplayEmployee({ data, setData, syncExtraToRoute, syncCXReplacements }) {
+export default function DisplayEmployee({ data, setData, syncExtraToRoute, syncCXReplacements, onDeleteRow }) {
 
   const [editingCell, setEditingCell] = useState(null);
   const [reasonPopup, setReasonPopup] = useState(false);
@@ -140,6 +140,10 @@ export default function DisplayEmployee({ data, setData, syncExtraToRoute, syncC
   function deleteRow(rowIndex) {
     const updatedData = data.filter((row, i) => i !== rowIndex);
     setData(updatedData);
+  
+    if (onDeleteRow) {
+      onDeleteRow(updatedData);
+    }
   }
 
   return(

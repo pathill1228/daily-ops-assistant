@@ -426,10 +426,12 @@ export default function Home() {
                     sweeps
                   )}</p>
             </div>
-            <SweepsData sweeps={sweeps} 
-            data={sweepsData} 
-            setData={setSweepsData}
-            syncCXReplacements={syncCXReplacements}
+            <SweepsData
+              sweeps={sweeps}
+              setSweeps={setSweeps}
+              data={sweepsData}
+              setData={setSweepsData}
+              syncCXReplacements={syncCXReplacements}
             />
           </div>
             <div className="flex flex-col">
@@ -458,10 +460,12 @@ export default function Home() {
                       adhoc
                     )}</p>
               </div>
-              <ADHOCData ADHOC={adhoc} 
-              data={adhocData} 
-              setData={setAdhocData}
-              syncCXReplacements={syncCXReplacements}
+              <ADHOCData
+                ADHOC={adhoc}
+                setAdhoc={setAdhoc}
+                data={adhocData}
+                setData={setAdhocData}
+                syncCXReplacements={syncCXReplacements}
               />
             </div>
           </div>
