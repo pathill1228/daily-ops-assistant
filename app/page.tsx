@@ -9,7 +9,7 @@ import ADHOCData from "./adhocData";
 import MiscData from "./miscData";
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@material-tailwind/react";
 
 export default function Home() {
@@ -38,6 +38,25 @@ export default function Home() {
   const [misc, setMisc] = useState(0);
 
   const [togglePage, setTogglePage] = useState(false);
+
+  useEffect(() => {
+    setEmployeesData((prev) => {
+      const withoutOldAdhocSlots = prev.filter(
+        (employee) => employee.route !== "ADHOC Extra Slot"
+      );
+  
+      const adhocSlots = Array.from({ length: Number(adhoc) || 0 }, (_, i) => ({
+        id: `adhoc-extra-${i}`,
+        name: null,
+        status: null,
+        replacement: null,
+        callOutReason: "",
+        route: "ADHOC Extra Slot",
+      }));
+  
+      return [...withoutOldAdhocSlots, ...adhocSlots];
+    });
+  }, [adhoc]);
 
   async function getHeraNotes(){
 
@@ -319,7 +338,7 @@ export default function Home() {
               <h3>VTO</h3>
               <p>{VTO}</p>
             </div>
-            <GenerateVTO misc={misc}
+            <GenerateVTO employeesData={employeesData}
             tellToStayHome={tellToStayHome} 
             sweeps={sweeps} 
             extras={extras} 
