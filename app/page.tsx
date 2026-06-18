@@ -58,75 +58,100 @@ export default function Home() {
     });
   }, [adhoc]);
 
-  async function getHeraNotes(){
-
-    const html = `
-    <b><u>Call Outs</u></b><br>
-    ${calloutsData.length === 0
-      ? "NONE"
-      : calloutsData
-          .map(employee =>
-            employee.callOutReason
-              ? `${employee.name} - ${employee.callOutReason}`
-              : employee.name
-          )
-          .join("<br>")}
-    <br></br>
-
-    <b>VTO</b><br>
-    ${VTOData.length === 0
-      ? "NONE"
-      : VTOData.map(employee => employee.name).join("<br>")}
-    <br></br>
-
-    <b>Told to stay home</b><br>
-    ${employeesData.length === 0
-      ? "NONE"
-      : employeesData.filter(employee => employee.status === "SH")
-      .map(employee => employee.name)
-      .join("<br>")}
-    <br></br>
-
-    <b>ADHOC</b><br>
-    ${adhocData.length === 0
-      ? "NONE"
-      : adhocData.map(employee => employee.name).join("<br>")}
-    <br></br>
-
-    <b>Nursery</b>
-    <br></br>
-
-    <b>Late</b>
-    <br></br>
-
-    <b>Sweeps</b><br> 
-    ${sweepsData.every(employee => employee.name === null) || sweepsData.length === 0
-      ? "NONE"
-      : sweepsData.map(employee => employee.name).join("<br>")}
-    <br></br>
-
-    <b>Extras</b><br>
-    ${employeesData.every(employee => employee.status !== "Extra") || employeesData.length === 0
-      ? "NONE"
-      : employeesData.filter(employee => employee.status === "Extra")
-      .map(employee => employee.name)
-      .join("<br>")}
-      <br></br>
-  `;
-
-  await navigator.clipboard.write([
-    new ClipboardItem({
-      "text/html": new Blob([html], { type: "text/html" }),
-      "text/plain": new Blob([html.replace(/<br><\/br>|<br>/g, "\n").replace(/<[^>]*>/g, "")], {
-        type: "text/plain",
+  async function getHeraNotes() {
+    const callOutText =
+      calloutsData.length === 0
+        ? "NONE"
+        : calloutsData
+            .map((employee) =>
+              employee.callOutReason
+                ? `${employee.name} - ${employee.callOutReason}`
+                : employee.name
+            )
+            .filter(Boolean)
+            .join("<br>");
+  
+    const vtoNames = [
+      ...VTOData.map((employee) => employee.name),
+      ...employeesData
+        .filter(
+          (employee) =>
+            typeof employee.status === "string" &&
+            employee.status.toLowerCase() === "vto"
+        )
+        .map((employee) => employee.name),
+    ].filter(Boolean);
+  
+    const vtoText =
+      vtoNames.length === 0 ? "NONE" : [...new Set(vtoNames)].join("<br>");
+  
+    const stayHomeText =
+      employeesData.filter((employee) => employee.status === "SH").length === 0
+        ? "NONE"
+        : employeesData
+            .filter((employee) => employee.status === "SH")
+            .map((employee) => employee.name)
+            .filter(Boolean)
+            .join("<br>");
+  
+    const adhocText =
+      adhocData.length === 0
+        ? "NONE"
+        : adhocData.map((employee) => employee.name).filter(Boolean).join("<br>");
+  
+    const sweepsText =
+      sweepsData.length === 0 ||
+      sweepsData.every((employee) => employee.name === null)
+        ? "NONE"
+        : sweepsData.map((employee) => employee.name).filter(Boolean).join("<br>");
+  
+    const extrasText =
+      employeesData.filter((employee) => employee.status === "Extra").length === 0
+        ? "NONE"
+        : employeesData
+            .filter((employee) => employee.status === "Extra")
+            .map((employee) => employee.name)
+            .filter(Boolean)
+            .join("<br>");
+  
+    const html = [
+      "<b><u>Call Outs</u></b>",
+      callOutText,
+      "",
+      "<b>VTO</b>",
+      vtoText,
+      "",
+      "<b>Told to stay home</b>",
+      stayHomeText,
+      "",
+      "<b>ADHOC</b>",
+      adhocText,
+      "",
+      "<b>Nursery</b>",
+      "",
+      "<b>Late</b>",
+      "",
+      "<b>Sweeps</b>",
+      sweepsText,
+      "",
+      "<b>Extras</b>",
+      extrasText,
+    ].join("<br>");
+  
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        "text/html": new Blob([html], { type: "text/html" }),
+        "text/plain": new Blob(
+          [html.replace(/<br>/g, "\n").replace(/<[^>]*>/g, "")],
+          { type: "text/plain" }
+        ),
       }),
-    }),
-  ]);
-
-  setCopied(true);
-  setTimeout(() => {
-    setCopied(false);
-  }, 2000);
+    ]);
+  
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   }
 
   function getInitials(name) {
