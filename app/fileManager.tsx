@@ -7,7 +7,7 @@ import VanInput from "./vanInput";
 import * as XLSX from "xlsx";
 
 
-export default function FileManager() {
+export default function FileManager({ adhoc, sweeps }) {
   const [cleanedJson, setCleanedJson] = useState<any[]>([]);
 
   function downloadCSV() {
@@ -49,6 +49,8 @@ export default function FileManager() {
       <VanInput
         cleanedJson={cleanedJson}
         setCleanedJson={setCleanedJson}
+        adhoc={adhoc}
+        sweeps={sweeps}
       />
       <button
         onClick={downloadCSV}

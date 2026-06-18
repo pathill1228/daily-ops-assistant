@@ -347,7 +347,7 @@ export default function Home() {
         }}>Employees / File</Button>
 
       <div className={`${togglePage ? "block" : "hidden"}`}>
-        <FileManager/>
+      <FileManager adhoc={adhoc} sweeps={sweeps} />
       </div>
 
       <div className={`${togglePage ? "hidden" : "block"}`}>
